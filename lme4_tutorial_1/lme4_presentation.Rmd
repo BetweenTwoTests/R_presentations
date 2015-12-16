@@ -1,7 +1,7 @@
 ---
 title: "Multilevel Regression Modelling with library(lme4)"
-author: John Doe
-date: March 22, 2005
+author: Leon Kim
+date: January 1, 2015
 output: slidy_presentation
 ---
 
