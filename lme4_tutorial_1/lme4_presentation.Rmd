@@ -34,50 +34,5 @@ node_pos <- matrix(c( (1+2)/2,3, (3+4)/2,3, 5,3,
 plot.igraph(M, layout = node_pos, vertex.shape="rectangle", vertex.size2=20)
 ```
 
-## Reproducibility 
-
-* Same script
-* Same results
-* Anywhere
-    + Single thread
-    + Multi-core
-    + Cloud Scale
-
-## Everything starts with a seed.
-Simulation is based off Pseudo-random number generation (PRNG).
-
-* PRNG is sequential, next number depends on the last state.
-* Seeds are used to store the state of a random number generator
-* by 'Setting a seed' one can place a PRNG into any exact state.
-
-## Parallel Random Number Generation
-Simulation is complicated in new parallel environments.
- 
-* PRNG is sequential,
-* parallel execution is not,
-* and order of execution is not guaranteed.
-
-This is where parallel pseudo-random number generators help out.
-
-## Parallel PRNG
-Parallel pseudo-random number generators start with a singe state that
-can spawn additional streams as well as streams of random numbers.
-
-1. SPRNG
-2. L'Ecuyer combined multiple-recursive generator
-
-# Introducing `harvestr`
-
-## R package `harvestr`
-<https://github.com/halpo/harvestr>
-
-What `harvestr` does:
-
-* Reproducibility
-* Caching
-* Under parallelized environments.
-
-------
-
 \titlepage
 
