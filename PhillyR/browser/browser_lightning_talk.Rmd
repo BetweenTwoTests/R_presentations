@@ -1,14 +1,8 @@
 ---
 title: "Interactive debugging with Environment Browser"
-output:
-  ioslides_presentation:
-    incremental: true
-author: "Leon Kim"
+author: "Leon Kim | www.betweentwotests.com"
+output: beamer_presentation
 ---
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-```
 
 ## Overview of `base::browser()`
 - This is a brief overview of `base::browser()` and how to use it for debugging in R.
@@ -16,28 +10,53 @@ knitr::opts_chunk$set(echo = FALSE)
 - Useful tool to "hack into" R functions (that you or other people wrote)
 
 ## Typical day in lab
-```{r initialize, echo = TRUE}
+```{r initialize, echo = TRUE, eval = FALSE}
+head(iris)
+```
+
+```{r initialize_eval, echo = FALSE, eval = TRUE}
+knitr::asis_output("\\footnotesize")
 head(iris)
 ```
 - Task: Researcher's ruler was off by 5 inches. Let's adjust it!
 
 ## Oops {.build}
-```{r oops, echo = TRUE}
+```{r oops, echo = TRUE, eval = FALSE}
 # Loop through each column and add 5
 df <- iris
 for(j in 1:ncol(df)){
   df[,j] <- df[,j] + 5
 }
 ```
+```{r oops_eval, echo = FALSE, eval = TRUE}
+knitr::asis_output("\\footnotesize")
+df <- iris
+for(j in 1:ncol(df)){
+  df[,j] <- df[,j] + 5
+}
+```
 
-```{r oops_reason, echo = TRUE}
+```{r oops_reason, echo = TRUE, eval = FALSE}
+unlist(lapply(iris, class))
+```
+```{r oops_reason_eval, echo = FALSE, eval = TRUE}
+knitr::asis_output("\\footnotesize")
 unlist(lapply(iris, class))
 ```
 - Forgot that `Species` column is not numeric!
 
 ## Quick and dirty solution {.build}
-```{r oops_solution, echo = TRUE}
-# Loop through each column EXCEPT the last one and add 5
+```{r oops_solution, echo = TRUE, eval=FALSE}
+# Loop through each column EXCEPT the last one
+df <- iris
+for(j in 1:(ncol(df)-1)){
+  df[,j] <- df[,j] + 5
+}
+head(df)
+```
+```{r oops_solution_eval, echo = FALSE, eval=TRUE}
+knitr::asis_output("\\footnotesize")
+# Loop through each column EXCEPT the last one
 df <- iris
 for(j in 1:(ncol(df)-1)){
   df[,j] <- df[,j] + 5
@@ -56,8 +75,7 @@ foo_1 <- function(x) { ... }
 foo_2 <- function(x) { ... }
 # Code that produces some error
 for(j in 1:ncol(df)){
-  foo_1(df[,j])
-  foo_2(df[,j])
+  foo_1(df[,j]); foo_2(df[,j])
 }
 ```
 
@@ -150,7 +168,8 @@ df <- iris
 df %>%
   group_by(Species) %>%
   mutate(avg_sepal_length = 
-           list(Species = Species, Sepal.Length = Sepal.Length) %>% 
+           list(Species = Species, 
+                Sepal.Length = Sepal.Length) %>% 
            browser()
   )
 ```
@@ -159,5 +178,5 @@ df %>%
 - Pass data to `browser()`
 ![11](Capture-11.PNG)
 
-## Other resources
-- `debug()`, `trace()`
+## tl;dr
+- browser() allows you to interactively code in any environment scope during R execution
